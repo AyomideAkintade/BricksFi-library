@@ -210,13 +210,13 @@ export default class BricksProgram {
             const vLink =  Buffer.from(params.virtual_link, 'utf-8');
     
             const formattedAttributes = params.attributes.map(({key, value}) => {
-                const _key = Buffer.from(key, 'utf-8');
-                const _value = Buffer.from(value, 'utf-8');
+                const _key = Buffer.from(key.padEnd(32, '\0'), 'utf-8');
+                const _value = Buffer.from(value.padEnd(32, '\0'), 'utf-8');
                 return {key: _key, value: _value};
             });
         
     
-            const imagesLinks = params.images.map((imageLink) => Buffer.from(imageLink, 'utf-8'));
+            const imagesLinks = params.images.map((imageLink) => Buffer.from(imageLink.padEnd(128, '\0'), 'utf-8'));
     
             const [assetPDA, _] = PublicKey.findProgramAddressSync(
                 [
@@ -226,6 +226,15 @@ export default class BricksProgram {
                 ],
                 this.program.programId // The program ID that owns the PDA
             );
+
+
+            const formattedTimeline = params.timeline.map(({ title, timestamp, description }) => {
+                const _title = Buffer.from(title.padEnd(32, '\0'), 'utf-8');
+                const _timestamp = new BN(timestamp);
+                const _description = Buffer.from(description.padEnd(128, '\0'), 'utf-8');
+
+                return {title: _title, timestamp: _timestamp, description: _description};
+            })
     
             const timestampBN = new BN(params.end_date_timestamp);
             const valueBN = new BN(params.value);
@@ -240,7 +249,7 @@ export default class BricksProgram {
                 vLink,
                 timestampBN,
                 valueBN,
-                [],
+                formattedTimeline,
                 ).accounts({
                         assetAccount: assetPDA,
                         user: this.provider.wallet.publicKey,
