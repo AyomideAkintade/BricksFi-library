@@ -61,6 +61,7 @@ function TestComponent(){
         - `title` (string)
         - `timestamp` (number)
         - `description` (string)  
+
 **Implementation**
 ```js
 const assetId = crypto.randomUUID();
