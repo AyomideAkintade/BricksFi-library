@@ -7,7 +7,7 @@ export default class BricksProgram {
     connection: Connection;
     provider: AnchorProvider;
     program: any;
-    constructor(connection: Connection, publicKey: PublicKey, signTransaction: any);
+    constructor(connection: Connection, publicKey?: PublicKey, signTransaction?: any);
     private parseAssetAccount;
     private parseUserAccount;
     /**

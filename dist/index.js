@@ -26,12 +26,18 @@ const bufferToString_1 = __importDefault(require("./utils/bufferToString"));
 const uuidToUint8Array_1 = __importDefault(require("./utils/uuidToUint8Array"));
 class BricksProgram {
     constructor(connection, publicKey, signTransaction) {
-        if (!connection || !publicKey || !signTransaction) {
+        if (!connection) {
             throw new Error("Failed to construct BricksProgram");
         }
         this.connection = connection;
-        this.provider = new anchor_1.AnchorProvider(connection, { publicKey, signTransaction }, {});
-        this.program = new anchor_1.Program(idl_json_1.default, this.provider);
+        if (publicKey && signTransaction) {
+            this.provider = new anchor_1.AnchorProvider(connection, { publicKey, signTransaction }, {});
+            this.program = new anchor_1.Program(idl_json_1.default, this.provider);
+        }
+        else {
+            this.provider = new anchor_1.AnchorProvider(connection, null, anchor_1.AnchorProvider.defaultOptions());
+            this.program = new anchor_1.Program(idl_json_1.default, this.provider);
+        }
     }
     parseAssetAccount(account) {
         return {
@@ -76,6 +82,9 @@ class BricksProgram {
      * @throws {Error}
      */
     async initializeUser(userId) {
+        if (!this.provider.wallet || !this.provider.wallet.publicKey) {
+            throw new Error("Can't use this function without initializing BricksProgram with 'publicKey' and 'signTransaction'");
+        }
         try {
             const _userId = (0, uuidToUint8Array_1.default)(userId);
             const [userPDA, _] = web3_js_1.PublicKey.findProgramAddressSync([
@@ -173,6 +182,9 @@ class BricksProgram {
      * @throws {Error}
      */
     async initializeAsset(params) {
+        if (!this.provider.wallet || !this.provider.wallet.publicKey) {
+            throw new Error("Can't use this function without initializing BricksProgram with 'publicKey' and 'signTransaction'");
+        }
         try {
             const assetId = (0, uuidToUint8Array_1.default)(params.id);
             const assetName = Buffer.from(params.name.padEnd(32, '\0'), 'utf-8');
@@ -214,6 +226,9 @@ class BricksProgram {
      * @throws {Error} - Throws an error if the transaction fails.
      */
     async buyAsset(params) {
+        if (!this.provider.wallet || !this.provider.wallet.publicKey) {
+            throw new Error("Can't use this function without initializing BricksProgram with 'publicKey' and 'signTransaction'");
+        }
         try {
             const assetKey = new web3_js_1.PublicKey(params.asset_key);
             const userAccount = new web3_js_1.PublicKey(params.user_account);
