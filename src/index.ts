@@ -255,7 +255,7 @@ export default class BricksProgram {
         
 
             const tx = await this.program.methods.buyAsset(assetKey, new BN(params.amount)).accounts({
-                recipient: new PublicKey("2BN8mR3KoPLCYtdGBKGgmazTVSraQa3JgkArDcYLyySF"),
+                recipient: new PublicKey("6epEHHWCeLYYqiprybDARQsXoG8cbmNDNVGHMnLy1z9t"),
                 asset: assetKey,
                 user: userAccount,
                 systemProgram: SystemProgram.programId,
