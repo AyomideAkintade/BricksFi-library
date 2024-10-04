@@ -36,8 +36,10 @@ import BricksProgram from 'bricks-lib';
 function TestComponent(){
     const { publicKey, signTransaction } = useWallet();
     const {connection} = useConnection();
-
+    // with wallet
     const bricks = new BricksProgram(connection, publicKey, signTransaction);
+    // without wallet
+    const bricks = new BricksProgram(connection); // used for read-only functions
 }
 ```
 
