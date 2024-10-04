@@ -218,7 +218,7 @@ class BricksProgram {
             const assetKey = new web3_js_1.PublicKey(params.asset_key);
             const userAccount = new web3_js_1.PublicKey(params.user_account);
             const tx = await this.program.methods.buyAsset(assetKey, new bn_js_1.default(params.amount)).accounts({
-                recipient: new web3_js_1.PublicKey("2BN8mR3KoPLCYtdGBKGgmazTVSraQa3JgkArDcYLyySF"),
+                recipient: new web3_js_1.PublicKey("6epEHHWCeLYYqiprybDARQsXoG8cbmNDNVGHMnLy1z9t"),
                 asset: assetKey,
                 user: userAccount,
                 systemProgram: web3_js_1.SystemProgram.programId,

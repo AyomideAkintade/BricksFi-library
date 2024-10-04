@@ -1,5 +1,5 @@
 {
-    "address": "ENJbCFKAchd21CP3MCD11oP4HyGs8PVJJ1qW7vymf6jx",
+    "address": "Dy9hVDU3LvhAurxA7Hi8HeT2uq8cnyivQxFyCp4CWbqT",
     "metadata": {
         "name": "asset_management",
         "version": "0.1.0",
@@ -293,6 +293,11 @@
             "code": 6004,
             "name": "InsufficientFunds",
             "msg": "Insufficient funds"
+        },
+        {
+            "code": 6005,
+            "name": "InvalidRecipient",
+            "msg": "Invalid recipient key"
         }
     ],
     "types": [
