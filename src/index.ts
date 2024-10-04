@@ -16,13 +16,21 @@ export default class BricksProgram {
     provider: AnchorProvider;
     program;
 
-    constructor(connection: Connection, publicKey: PublicKey, signTransaction){
-        if(!connection || !publicKey || !signTransaction) {
+    constructor(connection: Connection, publicKey?: PublicKey, signTransaction?){
+        if(!connection) {
             throw new Error("Failed to construct BricksProgram");
         }
+
         this.connection = connection;
-        this.provider = new AnchorProvider(connection, { publicKey, signTransaction } as Wallet, {});
-        this.program = new Program(idl as Idl, this.provider);
+        
+        if(publicKey && signTransaction){
+            this.provider = new AnchorProvider(connection, { publicKey, signTransaction } as Wallet, {});
+            this.program = new Program(idl as Idl, this.provider);
+        }
+        else {
+            this.provider = new AnchorProvider(connection, null, AnchorProvider.defaultOptions());
+            this.program = new Program(idl as Idl, this.provider);
+        }
     }
 
     private parseAssetAccount(account) : Asset {
@@ -71,6 +79,9 @@ export default class BricksProgram {
      */
 
     async initializeUser(userId: UUID): Promise<{hash: string, key: string}>{
+        if (!this.provider.wallet || !this.provider.wallet.publicKey) {
+            throw new Error("Can't use this function without initializing BricksProgram with 'publicKey' and 'signTransaction'");
+        }
         try {
             const _userId = uuidToUint8Array(userId);
             const [userPDA, _] = PublicKey.findProgramAddressSync(
@@ -189,6 +200,9 @@ export default class BricksProgram {
      * @throws {Error}
      */
     async initializeAsset(params: AddAsset): Promise<{hash: string, key: string}>{
+        if (!this.provider.wallet || !this.provider.wallet.publicKey) {
+            throw new Error("Can't use this function without initializing BricksProgram with 'publicKey' and 'signTransaction'");
+        }
         try {
             const assetId = uuidToUint8Array(params.id);
             const assetName = Buffer.from(params.name.padEnd(32, '\0'), 'utf-8');
@@ -249,6 +263,9 @@ export default class BricksProgram {
      * @throws {Error} - Throws an error if the transaction fails.
      */
     async buyAsset(params: BuyAsset): Promise<string>{
+        if (!this.provider.wallet || !this.provider.wallet.publicKey) {
+            throw new Error("Can't use this function without initializing BricksProgram with 'publicKey' and 'signTransaction'");
+        }
         try {
             const assetKey = new PublicKey(params.asset_key);
             const userAccount = new PublicKey(params.user_account);
