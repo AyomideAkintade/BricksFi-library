@@ -154,7 +154,6 @@ export default class BricksProgram {
             const _assetKey = new PublicKey(assetKey);
             const assetAccount = await this.program.account.assetState.fetch(_assetKey);
             
-            console.log(JSON.stringify(assetAccount));
             const parsedAccount = this.parseAssetAccount(assetAccount);
 
             return parsedAccount;

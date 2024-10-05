@@ -1,5 +1,5 @@
 {
-    "address": "Dy9hVDU3LvhAurxA7Hi8HeT2uq8cnyivQxFyCp4CWbqT",
+    "address": "3S7w7LHx2crhcjmjrXWSu1DbGDjwJeXf4TRcxfFNsqcb",
     "metadata": {
         "name": "asset_management",
         "version": "0.1.0",
@@ -23,27 +23,7 @@
                 {
                     "name": "user_account",
                     "writable": true,
-                    "pda": {
-                        "seeds": [
-                            {
-                                "kind": "const",
-                                "value": [
-                                    117,
-                                    115,
-                                    101,
-                                    114
-                                ]
-                            },
-                            {
-                                "kind": "account",
-                                "path": "user"
-                            },
-                            {
-                                "kind": "arg",
-                                "path": "user_id"
-                            }
-                        ]
-                    }
+                    "signer": true
                 },
                 {
                     "name": "user",
@@ -61,7 +41,7 @@
                     "type": {
                         "array": [
                             "u8",
-                            16
+                            32
                         ]
                     }
                 }
@@ -293,11 +273,6 @@
             "code": 6004,
             "name": "InsufficientFunds",
             "msg": "Insufficient funds"
-        },
-        {
-            "code": 6005,
-            "name": "InvalidRecipient",
-            "msg": "Invalid recipient key"
         }
     ],
     "types": [
@@ -474,7 +449,7 @@
                         "type": {
                             "array": [
                                 "u8",
-                                16
+                                32
                             ]
                         }
                     },
