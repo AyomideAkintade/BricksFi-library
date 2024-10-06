@@ -43,8 +43,8 @@ export default class BricksProgram {
             virtual_link: bufferToString(account.virtualLink),
             num_owners: account.numOwners,
             end_date_timestamp: account.endDateTimestamp.toNumber(),
-            value: account.value.toNumber(),
-            value_bought: account.valueBought.toNumber(),
+            value: account.value,
+            value_bought: account.valueBought,
             timeline: account.timeline,
             attributes: account.attributes.map(({ key, value }) => {
                 return {
@@ -63,7 +63,7 @@ export default class BricksProgram {
                 key: account.key.toString(),
                 id: uint8ArrayToUUID(new Uint8Array(account.id)),
                 owned_assets: account.ownedAssets.map((asset) => asset.toString()),
-                ownership_amounts: account.ownershipAmounts.map((amount)=>amount.toNumber())
+                ownership_amounts: account.ownershipAmounts.map((amount)=>amount)
             }
         }
         catch(error){
@@ -97,7 +97,7 @@ export default class BricksProgram {
             const tx = await this.program.methods.addUser(
                 _userId
                 ).accounts({
-                    assetAccount: userPDA,
+                    userAccount: userPDA,
                     user: this.provider.wallet.publicKey,
                     systemProgram: SystemProgram.programId,
                 }).rpc();
@@ -279,7 +279,7 @@ export default class BricksProgram {
             const userAccount = new PublicKey(params.user_account);
         
 
-            const tx = await this.program.methods.buyAsset(assetKey, new BN(params.amount)).accounts({
+            const tx = await this.program.methods.buyAsset(assetKey, params.amount).accounts({
                 recipient: new PublicKey("6epEHHWCeLYYqiprybDARQsXoG8cbmNDNVGHMnLy1z9t"),
                 asset: assetKey,
                 user: userAccount,

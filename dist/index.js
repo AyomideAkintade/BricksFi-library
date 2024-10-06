@@ -49,8 +49,8 @@ class BricksProgram {
             virtual_link: (0, bufferToString_1.default)(account.virtualLink),
             num_owners: account.numOwners,
             end_date_timestamp: account.endDateTimestamp.toNumber(),
-            value: account.value.toNumber(),
-            value_bought: account.valueBought.toNumber(),
+            value: account.value,
+            value_bought: account.valueBought,
             timeline: account.timeline,
             attributes: account.attributes.map(({ key, value }) => {
                 return {
@@ -68,7 +68,7 @@ class BricksProgram {
                 key: account.key.toString(),
                 id: (0, uint8ArrayToUUID_1.default)(new Uint8Array(account.id)),
                 owned_assets: account.ownedAssets.map((asset) => asset.toString()),
-                ownership_amounts: account.ownershipAmounts.map((amount) => amount.toNumber())
+                ownership_amounts: account.ownershipAmounts.map((amount) => amount)
             };
         }
         catch (error) {
@@ -93,7 +93,7 @@ class BricksProgram {
                 _userId
             ], this.program.programId);
             const tx = await this.program.methods.addUser(_userId).accounts({
-                assetAccount: userPDA,
+                userAccount: userPDA,
                 user: this.provider.wallet.publicKey,
                 systemProgram: web3_js_1.SystemProgram.programId,
             }).rpc();
@@ -141,7 +141,6 @@ class BricksProgram {
         try {
             const _assetKey = new web3_js_1.PublicKey(assetKey);
             const assetAccount = await this.program.account.assetState.fetch(_assetKey);
-            console.log(JSON.stringify(assetAccount));
             const parsedAccount = this.parseAssetAccount(assetAccount);
             return parsedAccount;
         }
@@ -238,7 +237,7 @@ class BricksProgram {
         try {
             const assetKey = new web3_js_1.PublicKey(params.asset_key);
             const userAccount = new web3_js_1.PublicKey(params.user_account);
-            const tx = await this.program.methods.buyAsset(assetKey, new bn_js_1.default(params.amount)).accounts({
+            const tx = await this.program.methods.buyAsset(assetKey, params.amount).accounts({
                 recipient: new web3_js_1.PublicKey("6epEHHWCeLYYqiprybDARQsXoG8cbmNDNVGHMnLy1z9t"),
                 asset: assetKey,
                 user: userAccount,

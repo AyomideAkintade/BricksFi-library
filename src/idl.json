@@ -1,5 +1,5 @@
 {
-  "address": "Dy9hVDU3LvhAurxA7Hi8HeT2uq8cnyivQxFyCp4CWbqT",
+  "address": "C1Fwq6KuKZpqWp2KeUcceimD1hCE1nvxkjWu4WRSvKZT",
   "metadata": {
     "name": "asset_management",
     "version": "0.1.0",
@@ -108,7 +108,7 @@
         },
         {
           "name": "buying",
-          "type": "u64"
+          "type": "f64"
         }
       ]
     },
@@ -225,7 +225,7 @@
         },
         {
           "name": "value",
-          "type": "u64"
+          "type": "f64"
         },
         {
           "name": "timeline",
@@ -377,11 +377,11 @@
           },
           {
             "name": "value",
-            "type": "u64"
+            "type": "f64"
           },
           {
             "name": "value_bought",
-            "type": "u64"
+            "type": "f64"
           },
           {
             "name": "timeline",
@@ -487,7 +487,7 @@
           {
             "name": "ownership_amounts",
             "type": {
-              "vec": "u64"
+              "vec": "f64"
             }
           }
         ]

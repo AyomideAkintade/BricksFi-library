@@ -1,5 +1,5 @@
 {
-    "address": "3S7w7LHx2crhcjmjrXWSu1DbGDjwJeXf4TRcxfFNsqcb",
+    "address": "C1Fwq6KuKZpqWp2KeUcceimD1hCE1nvxkjWu4WRSvKZT",
     "metadata": {
         "name": "asset_management",
         "version": "0.1.0",
@@ -23,7 +23,27 @@
                 {
                     "name": "user_account",
                     "writable": true,
-                    "signer": true
+                    "pda": {
+                        "seeds": [
+                            {
+                                "kind": "const",
+                                "value": [
+                                    117,
+                                    115,
+                                    101,
+                                    114
+                                ]
+                            },
+                            {
+                                "kind": "account",
+                                "path": "user"
+                            },
+                            {
+                                "kind": "arg",
+                                "path": "user_id"
+                            }
+                        ]
+                    }
                 },
                 {
                     "name": "user",
@@ -41,7 +61,7 @@
                     "type": {
                         "array": [
                             "u8",
-                            32
+                            16
                         ]
                     }
                 }
@@ -88,7 +108,7 @@
                 },
                 {
                     "name": "buying",
-                    "type": "u64"
+                    "type": "f64"
                 }
             ]
         },
@@ -205,7 +225,7 @@
                 },
                 {
                     "name": "value",
-                    "type": "u64"
+                    "type": "f64"
                 },
                 {
                     "name": "timeline",
@@ -273,6 +293,11 @@
             "code": 6004,
             "name": "InsufficientFunds",
             "msg": "Insufficient funds"
+        },
+        {
+            "code": 6005,
+            "name": "InvalidRecipient",
+            "msg": "Invalid recipient key"
         }
     ],
     "types": [
@@ -352,11 +377,11 @@
                     },
                     {
                         "name": "value",
-                        "type": "u64"
+                        "type": "f64"
                     },
                     {
                         "name": "value_bought",
-                        "type": "u64"
+                        "type": "f64"
                     },
                     {
                         "name": "timeline",
@@ -449,7 +474,7 @@
                         "type": {
                             "array": [
                                 "u8",
-                                32
+                                16
                             ]
                         }
                     },
@@ -462,7 +487,7 @@
                     {
                         "name": "ownership_amounts",
                         "type": {
-                            "vec": "u64"
+                            "vec": "f64"
                         }
                     }
                 ]
